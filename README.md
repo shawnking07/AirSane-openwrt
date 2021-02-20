@@ -8,7 +8,7 @@ https://hub.docker.com/r/openwrtorg/sdk
 ### Prepare
 Add repository
 ```
-echo "src-git airsaned https://github.com/tbaela/AirSane-openwrt.git" >> feeds.conf.default
+echo "src-git airsaned https://github.com/ypopovych/AirSane-openwrt.git" >> feeds.conf.default
 ```
 
 Update feeds
