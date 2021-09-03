@@ -9,6 +9,8 @@ https://hub.docker.com/r/openwrtorg/sdk
 ```
 docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:<target>-<subtarget>[-<branch>]
 ```
+If you plan to reuse SDK for other packages or purposes remove ```--rm``` switch
+
 
 Example for latest (at time of writing) for Xiaomi router 3g (non v2)
 ```
