@@ -5,10 +5,19 @@ This repository contains OpenWRT package for the AirSane project at https://gith
 ### Download OpenWRT SDK
 The easiest way is to use Docker image\
 https://hub.docker.com/r/openwrtorg/sdk
+
+```
+docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:<target>-<subtarget>[-<branch>]
+```
+
+Example for latest (at time of writing) for Xiaomi router 3g (non v2)
+```
+docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:ramips-mt7621-21.02.0
+```
 ### Prepare
 Add repository
 ```
-echo "src-git airsaned https://github.com/tbaela/AirSane-openwrt.git" >> feeds.conf.default
+echo "src-git airsaned https://github.com/nevian427/AirSane-openwrt.git" >> feeds.conf.default
 ```
 
 Update feeds
