@@ -18,11 +18,7 @@ jobs:
     steps:
       - name: Check env
         run: |
-          id -un
-          id -u
           export
-          ls -la $GITHUB_ENV
-          chmod 666 $GITHUB_ENV
           ls -la $GITHUB_ENV
           echo "TEST=TST" >> $GITHUB_ENV
       - name: Add feeds
