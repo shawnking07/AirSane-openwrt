@@ -8,9 +8,14 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - sdk: ramips-mt76x8
+            target: mipsel_24kc
     runs-on: ubuntu-latest
     container: 
-      image: openwrtorg/sdk:ramips-mt76x8-21.02.0
+      image: openwrtorg/sdk:${{ matrix.sdk }}-21.02.0
       options: --user root
     defaults:
       run:
@@ -38,5 +43,5 @@ jobs:
       - name: Upload app binary
         uses: actions/upload-artifact@v2
         with:
-          name: airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
-          path: /home/build/openwrt/bin/packages/mipsel_24kc/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
+          name: airsaned_${{ env.PKG_FULL_VERSION }}_${{ matrix.target }}.ipk
+          path: /home/build/openwrt/bin/packages/${{ matrix.target }}/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_${{ matrix.target }}.ipk
