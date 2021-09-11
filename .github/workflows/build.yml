@@ -17,6 +17,8 @@ jobs:
       - name: Check env
         run: |
           ls -la $GITHUB_ENV
+          chmod 666 $GITHUB_ENV
+          ls -la $GITHUB_ENV
           echo "TEST=TST" >> $GITHUB_ENV
       - name: Add feeds
         run: echo "src-git airsaned https://github.com/ypopovych/AirSane-openwrt.git^${GITHUB_SHA}" >> feeds.conf.default
