@@ -25,15 +25,20 @@ jobs:
       - name: Compile
         run: make package/airsaned/compile -j$(nproc)
       - name: Print build tree
-        run: find bin/
+        run: |
+          find feeds/
+          find bin/
       - name: Get version
         run: |
-          export PKG_SOURCE_DATE=`sed -n "s/^PKG_SOURCE_DATE:=\(.*\)$/\1/p" airsaned/Makefile`
-          export PKG_SOURCE_VERSION=`sed -n "s/^PKG_SOURCE_VERSION:=\(.*\)$/\1/p" airsaned/Makefile`
+          export SOURCE_DIR="./feeds/packages/airsaned"
+          export PKG_SOURCE_DATE=`sed -n "s/^PKG_SOURCE_DATE:=\(.*\)$/\1/p" $SOURCE_DIR/Makefile`
+          export PKG_SOURCE_VERSION=`sed -n "s/^PKG_SOURCE_VERSION:=\(.*\)$/\1/p" $SOURCE_DIR/Makefile`
+          export PKG_RELEASE=`sed -n "s/^PKG_RELEASE:=\(.*\)$/\1/p" $SOURCE_DIR/Makefile`
           export PKG_VERSION="$PKG_SOURCE_DATE-$PKG_SOURCE_VERSION"
-          echo "::set-env name=PKG_VERSION::$PKG_VERSION"
+          echo "PKG_VERSION=$PKG_VERSION" >> $GITHUB_ENV
+          echo "PKG_FULL_VERSION=$PKG_VERSION-$PKG_RELEASE" >> $GITHUB_ENV
       - name: Upload app binary
         uses: actions/upload-artifact@v2
         with:
-          name: airsaned-mipsel24kc-${{ env.PKG_VERSION }}.ipk
-          path: bin/packages/mipsel_24kc/airsaned/airsaned-${{ env.PKG_VESION }}.ipk
+          name: airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
+          path: bin/packages/mipsel_24kc/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
