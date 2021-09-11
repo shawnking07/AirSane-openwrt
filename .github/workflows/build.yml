@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: openwrtorg/sdk:ramips-mt76x8-21.02.0
-      options: --user 1001
+      options: --user root
     defaults:
       run:
         working-directory: /home/build/openwrt
