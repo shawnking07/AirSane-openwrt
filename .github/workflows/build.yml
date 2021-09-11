@@ -9,7 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: openwrtorg/sdk:ramips-mt76x8-21.02.0
+    container: 
+      image: openwrtorg/sdk:ramips-mt76x8-21.02.0
+      options: --user 1001
     defaults:
       run:
         working-directory: /home/build/openwrt
