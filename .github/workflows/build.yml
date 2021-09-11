@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Check env
         run: |
-          whoami
-          echo $UID
+          id -un
+          id -u
           export
           ls -la $GITHUB_ENV
           chmod 666 $GITHUB_ENV
