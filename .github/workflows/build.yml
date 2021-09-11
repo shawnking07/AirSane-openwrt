@@ -16,11 +16,6 @@ jobs:
       run:
         working-directory: /home/build/openwrt
     steps:
-      - name: Check env
-        run: |
-          export
-          ls -la $GITHUB_ENV
-          echo "TEST=TST" >> $GITHUB_ENV
       - name: Add feeds
         run: echo "src-git airsaned https://github.com/ypopovych/AirSane-openwrt.git^${GITHUB_SHA}" >> feeds.conf.default
       - name: Update feeds
@@ -44,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
-          path: bin/packages/mipsel_24kc/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
+          path: /home/build/openwrt/bin/packages/mipsel_24kc/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_mipsel_24kc.ipk
