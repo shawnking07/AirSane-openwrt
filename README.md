@@ -12,9 +12,13 @@ docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:<tar
 If you plan to reuse SDK for other packages or purposes remove ```--rm``` switch
 
 
-Example for latest (at time of writing) for Xiaomi router 3g (non v2)
+Example for latest (at time of writing) for Xiaomi router 3g (non v2):
 ```
 docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:ramips-mt7621-21.02.1
+```
+or for the Raspberry Pi Zero for OpenWrt 22.03.2:
+```
+docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:bcm27xx-bcm2708-22.03.2
 ```
 ### Prepare
 Add repository
