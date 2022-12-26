@@ -13,6 +13,8 @@ jobs:
         include:
           - sdk: ramips-mt76x8
             target: mipsel_24kc
+          - sdk: bcm27xx-bcm2708
+            target: arm_arm1176jzf-s_vfp
     runs-on: ubuntu-latest
     container: 
       image: openwrtorg/sdk:${{ matrix.sdk }}-22.03.2
