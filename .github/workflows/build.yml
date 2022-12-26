@@ -8,14 +8,21 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - sdk: ramips-mt76x8
+            target: mipsel_24kc
     runs-on: ubuntu-latest
-    container: openwrtorg/sdk:ramips-mt7621-19.07.2
+    container: 
+      image: openwrtorg/sdk:${{ matrix.sdk }}-21.02.0
+      options: --user root
     defaults:
       run:
         working-directory: /home/build/openwrt
     steps:
       - name: Add feeds
-        run: echo "src-git airsaned https://github.com/tbaela/AirSane-openwrt.git^${GITHUB_SHA}" >> feeds.conf.default
+        run: echo "src-git airsaned https://github.com/ypopovych/AirSane-openwrt.git^${GITHUB_SHA}" >> feeds.conf.default
       - name: Update feeds
         run: ./scripts/feeds update base packages airsaned
       - name: Make defconfig
@@ -24,3 +31,17 @@ jobs:
         run: ./scripts/feeds install airsaned
       - name: Compile
         run: make package/airsaned/compile -j$(nproc)
+      - name: Get version
+        run: |
+          export MAKEFILE="./feeds/airsaned/airsaned/Makefile"
+          export PKG_SOURCE_DATE=`sed -n "s/^PKG_SOURCE_DATE:=\(.*\)$/\1/p" $MAKEFILE`
+          export PKG_SOURCE_VERSION=`sed -n "s/^PKG_SOURCE_VERSION:=\(.*\)$/\1/p" $MAKEFILE`
+          export PKG_RELEASE=`sed -n "s/^PKG_RELEASE:=\(.*\)$/\1/p" $MAKEFILE`
+          export PKG_VERSION="$PKG_SOURCE_DATE-$PKG_SOURCE_VERSION"
+          echo "PKG_VERSION=$PKG_VERSION" >> $GITHUB_ENV
+          echo "PKG_FULL_VERSION=$PKG_VERSION-$PKG_RELEASE" >> $GITHUB_ENV
+      - name: Upload app binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: airsaned_${{ env.PKG_FULL_VERSION }}_${{ matrix.target }}.ipk
+          path: /home/build/openwrt/bin/packages/${{ matrix.target }}/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_${{ matrix.target }}.ipk

@@ -1,4 +1,4 @@
-![GITHUB-BADGE](https://github.com/tbaela/AirSane-openwrt/workflows/Build/badge.svg)
+![GITHUB-BADGE](https://github.com/ypopovych/AirSane-openwrt/actions/workflows/build.yml/badge.svg)
 # AirSane for OpenWRT
 This repository contains OpenWRT package for the AirSane project at https://github.com/SimulPiscator/AirSane
 ## Usage
@@ -19,7 +19,7 @@ docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:rami
 ### Prepare
 Add repository
 ```
-echo "src-git airsaned https://github.com/nevian427/AirSane-openwrt.git" >> feeds.conf.default
+echo "src-git airsaned https://github.com/cmangla/AirSane-openwrt.git" >> feeds.conf.default
 ```
 
 Update feeds

@@ -32,7 +32,7 @@ define Package/airsaned/description
   A SANE WebScan frontend that supports Apple's AirScan protocol
 endef
 
-define Package/conffiles
+define Package/airsaned/conffiles
 	/etc/config/airsaned
 endef
 
@@ -42,7 +42,7 @@ define Package/airsaned/install
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_BIN) files/airsaned.init $(1)/etc/init.d/airsaned
 	$(INSTALL_DIR) $(1)/etc/config/
-	$(INSTALL_BIN) files/airsaned.default $(1)/etc/config/airsaned
+	$(CP) files/airsaned.default $(1)/etc/config/airsaned
 endef
 
 $(eval $(call BuildPackage,airsaned))
