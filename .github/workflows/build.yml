@@ -15,7 +15,7 @@ jobs:
             target: mipsel_24kc
     runs-on: ubuntu-latest
     container: 
-      image: openwrtorg/sdk:${{ matrix.sdk }}-21.02.0
+      image: openwrtorg/sdk:${{ matrix.sdk }}-22.03.2
       options: --user root
     defaults:
       run:
