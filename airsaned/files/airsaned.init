@@ -18,7 +18,7 @@ start_service() {
 	config_load "$CFG_NAME"
 	config_get interface "$cfg" 'interface' br-lan
 	config_get port "$cfg" 'port' 8090
-	config_get access_log "$cfg" 'access_log'
+	config_get access_log "$cfg" 'access_log' '-'
 	config_get hotplug "$cfg" 'hotplug' true
 	config_get mdns_announce "$cfg" 'mdns_announce' true
 	config_get local_scanners_only "$cfg" 'local_scanners_only' true
