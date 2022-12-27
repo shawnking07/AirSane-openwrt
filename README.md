@@ -2,15 +2,12 @@
 # AirSane for OpenWRT
 This repository contains OpenWRT package for the AirSane project at https://github.com/SimulPiscator/AirSane
 ## Usage
-### Download OpenWRT SDK
-The easiest way is to use Docker image\
+### Build
+Build the package for yourself using the OpenWRT SDK. The easiest way is to use the Docker image from\
 https://hub.docker.com/r/openwrtorg/sdk
-
 ```
 docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:<target>-<subtarget>[-<branch>]
 ```
-If you plan to reuse SDK for other packages or purposes remove ```--rm``` switch
-
 
 Example for latest (at time of writing) for Xiaomi router 3g (non v2):
 ```
@@ -20,6 +17,8 @@ or for the Raspberry Pi Zero for OpenWrt 22.03.2:
 ```
 docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk:bcm27xx-bcm2708-22.03.2
 ```
+
+The continuous integration in this repository also builds some packages as artifacts. See "Actions" tab.
 ### Prepare
 Add repository
 ```
