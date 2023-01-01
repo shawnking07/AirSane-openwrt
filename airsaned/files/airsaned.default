@@ -1,5 +1,5 @@
 config airsaned 'global'
-	option interface 		'br-lan'
+	option interface 		''
 	option port			'8090'
 	option access_log		'-'
 	option hotplug			'true'
