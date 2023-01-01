@@ -58,3 +58,6 @@ Run\
 
 Run at startup\
 ```/etc/init.d/airsaned enable```
+
+# Acknowledgements
+This is a fork of the original implementation by [polikasov](https://github.com/polikasov/AirSane-openwrt), with changes by [nevian427](https://github.com/nevian427/AirSane-openwrt) and [ypopovych](https://github.com/ypopovych/AirSane-openwrt) merged in.
