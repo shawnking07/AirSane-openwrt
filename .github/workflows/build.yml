@@ -17,7 +17,7 @@ jobs:
             target: arm_arm1176jzf-s_vfp
     runs-on: ubuntu-latest
     container: 
-      image: openwrtorg/sdk:${{ matrix.sdk }}-22.03.2
+      image: openwrt/sdk:${{ matrix.sdk }}-22.03.2
       options: --user root
     defaults:
       run:
