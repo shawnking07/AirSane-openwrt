@@ -15,18 +15,18 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: x86_64-21.02.6
+          - arch: x86_64
             path: x86_64
-          - arch: rockchip-armv8-21.02.6
+          - arch: rockchip-armv8
             path: aarch64_generic
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Build
-        uses: openwrt/gh-action-sdk@v3
+        uses: openwrt/gh-action-sdk@v5
         env:
           ARCH: ${{ matrix.arch }}
 
