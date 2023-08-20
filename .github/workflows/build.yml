@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: x86_64
-            path: x86_64
+          # - arch: x86_64
+          #   path: x86_64
           - arch: rockchip-armv8
             path: aarch64_generic
 
