@@ -1,49 +1,61 @@
-name: Build
+name: build
 
 on:
   push:
-    paths:
-      - 'airsaned/**'
-      - '.github/**'
+    branches: [ master ]
+    tags:
+      - "v*"
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
+    name: ${{ matrix.arch }} build
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
-          - sdk: ramips-mt76x8
-            target: mipsel_24kc
-          - sdk: bcm27xx-bcm2708
-            target: arm_arm1176jzf-s_vfp
-    runs-on: ubuntu-latest
-    container: 
-      image: openwrt/sdk:${{ matrix.sdk }}-22.03.2
-      options: --user root
-    defaults:
-      run:
-        working-directory: /home/build/openwrt
+          - arch: x86_64-21.02.6
+            path: x86_64
+          - arch: rockchip-armv8-21.02.6
+            path: aarch64_generic
+
     steps:
-      - name: Add feeds
-        run: echo "src-git airsaned https://github.com/cmangla/AirSane-openwrt.git^${GITHUB_SHA}" >> feeds.conf.default
-      - name: Update feeds
-        run: ./scripts/feeds update base packages airsaned
-      - name: Make defconfig
-        run: make defconfig
-      - name: Install feeds
-        run: ./scripts/feeds install airsaned
-      - name: Compile
-        run: make package/airsaned/compile -j$(nproc)
-      - name: Get version
-        run: |
-          export MAKEFILE="./feeds/airsaned/airsaned/Makefile"
-          export PKG_SOURCE_DATE=`sed -n "s/^PKG_SOURCE_DATE:=\(.*\)$/\1/p" $MAKEFILE`
-          export PKG_SOURCE_VERSION=`sed -n "s/^PKG_SOURCE_VERSION:=\(.*\)$/\1/p" $MAKEFILE`
-          export PKG_RELEASE=`sed -n "s/^PKG_RELEASE:=\(.*\)$/\1/p" $MAKEFILE`
-          export PKG_VERSION="$PKG_SOURCE_DATE-$PKG_SOURCE_VERSION"
-          echo "PKG_VERSION=$PKG_VERSION" >> $GITHUB_ENV
-          echo "PKG_FULL_VERSION=$PKG_VERSION-$PKG_RELEASE" >> $GITHUB_ENV
-      - name: Upload app binary
-        uses: actions/upload-artifact@v3
+      - uses: actions/checkout@v2
         with:
-          name: airsaned_${{ env.PKG_FULL_VERSION }}_${{ matrix.target }}.ipk
-          path: /home/build/openwrt/bin/packages/${{ matrix.target }}/airsaned/airsaned_${{ env.PKG_FULL_VERSION }}_${{ matrix.target }}.ipk
+          fetch-depth: 0
+
+      - name: Build
+        uses: openwrt/gh-action-sdk@v3
+        env:
+          ARCH: ${{ matrix.arch }}
+
+      - name: Store packages
+        uses: actions/upload-artifact@v2
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        with:
+          name: ${{ matrix.arch }}-packages
+          path: bin/packages/${{ matrix.path }}/packages_ci/*.ipk
+
+      - name: Store release packages
+        uses: actions/upload-artifact@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: ${{ github.ref_name }}
+          path: bin/packages/${{ matrix.path }}/packages_ci/*.ipk
+
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download release packages
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.ref_name }}
+
+      - name: Release packages
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "*.ipk"
