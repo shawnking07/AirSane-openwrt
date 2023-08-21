@@ -29,6 +29,8 @@ jobs:
         uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}
+          KEY_BUILD: ${{ secrets.KEY_BUILD }}
+          FEEDNAME: packages_ci
           V: s
 
       - name: Store packages
