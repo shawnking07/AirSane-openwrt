@@ -34,14 +34,14 @@ jobs:
           V: s
 
       - name: Store packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: "!startsWith(github.ref, 'refs/tags/')"
         with:
           name: ${{ matrix.arch }}-packages
           path: bin/packages/${{ matrix.path }}/packages_ci/*.ipk
 
       - name: Store release packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           name: ${{ github.ref_name }}
@@ -54,7 +54,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download release packages
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ github.ref_name }}
 
