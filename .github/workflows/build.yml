@@ -17,7 +17,7 @@ jobs:
         include:
           # - arch: x86_64
           #   path: x86_64
-          - arch: rockchip-armv8
+          - arch: rockchip-armv8-21.02.7
             path: aarch64_generic
 
     steps:
@@ -29,6 +29,7 @@ jobs:
         uses: openwrt/gh-action-sdk@v5
         env:
           ARCH: ${{ matrix.arch }}
+
           V: s
 
       - name: Store packages
